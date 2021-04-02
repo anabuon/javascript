@@ -2,6 +2,8 @@ class Entity {
   constructor(name) {
     this.name = name
   }
+  print() {}
+  draw() {}
 }
 
 class Stuff extends Entity {
@@ -18,6 +20,12 @@ class Box extends Entity {
   addStuff(stuff) {
     this._stuff.push(stuff)
   }
+  draw(ul) {
+    let li = document.createElement('li')
+    let json = JSON.stringify(this._stuff)
+    li.innerText = `${this.name} ${json}`
+    ul.appendChild(li)
+  }
 }
 
 class User extends Entity {
@@ -31,35 +39,53 @@ class User extends Entity {
   toString() {
     this.box.join(' ')
   }
+  draw() {
+    let div = document.createElement('div')
+    div.innerText = this.name
+    let ul = document.createElement('ul')
+    div.appendChild(ul)
+    this._boxes.forEach((e) => e.draw(ul))
+    document.body.appendChild(div)
+  }
 }
 
-User.prototype.printUser = function () {
+User.prototype.print = function () {
   console.log('User name:', this.name)
 }
 
-Box.prototype.printBox = function () {
+Box.prototype.print = function () {
   console.log('Box name:', this.name)
 }
 
-Stuff.prototype.printStuff = function () {
+Stuff.prototype.print = function () {
   console.log('Stuff name:', this.name)
 }
 
-const userName = new User('Ana')
-const userName2 = new User('Andrey')
+const user1 = new User('Ana')
 const box1 = new Box('Animal')
-
 const cat = new Stuff('cat')
 const snake = new Stuff('snake')
 
+const user2 = new User('Andrey')
+const box2 = new Box('Pupil')
+const pupil1 = new Stuff('Ana')
+const pupil2 = new Stuff('Olga')
+
 box1.addStuff(cat)
 box1.addStuff(snake)
-userName.addBox(box1)
+user1.addBox(box1)
 
-console.log(userName)
+box2.addStuff(pupil1)
+box2.addStuff(pupil2)
+user2.addBox(box2)
 
-userName.printUser()
-box1.printBox()
+user1.draw()
+user2.draw()
 
-console.log(userName2)
-userName2.printUser()
+// console.log(user1)
+
+// user1.print()
+// box1.print()
+
+// console.log(user2)
+// user2.print()
